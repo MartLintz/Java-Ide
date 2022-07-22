@@ -144,7 +144,7 @@ class CompileTask(
                                                 + "\n\nSystem logs:\n"
                                                 + task.getLogs(),
                                         true)
-                                return Unit
+                                return@run Unit
                             } catch (e: Exception) {
                                 activity.dialog(
                                         "Failed...",
@@ -155,7 +155,7 @@ class CompileTask(
                                                 + "\n"
                                                 + Log.getStackTraceString(e),
                                         true)
-                                return Unit
+                                return@run Unit
                             }
                             val s = StringBuilder()
 
@@ -176,10 +176,10 @@ class CompileTask(
     }
 
     interface CompilerListeners {
-        fun onCurrentBuildStageChanged(stage: String)
+        fun onCurrentBuildStageChanged(stage: String?)
 
         fun onSuccess()
 
-        fun onFailed(errorMessage: String)
+        fun onFailed(errorMessage: String?)
     }
 }
