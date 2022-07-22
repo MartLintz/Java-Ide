@@ -61,7 +61,7 @@ class CompileTask(
             Looper.prepare()
         }
 
-         val prefs = activity.getSharedPreferences("compiler_settings", Context.MODE_PRIVATE)
+        val prefs = activity.getSharedPreferences("compiler_settings", Context.MODE_PRIVATE)
         try {
             listener.onCurrentBuildStageChanged(STAGE_CLEAN)
             // a simple workaround to prevent calls to system.exit
@@ -75,7 +75,7 @@ class CompileTask(
                 FileUtil.writeFile(currentPath, code)
             }
         } catch (e: IOException) {
-            listener.onFailed(e.getMessage())
+            listener.onFailed(e.message)
         }
 
         // Run kotlinc
@@ -84,11 +84,11 @@ class CompileTask(
         try {
             KotlinCompiler().doFullTask(activity.getProject())
         } catch (e: CompilationFailedException) {
-            listener.onFailed(e.getMessage())
-            return
+            listener.onFailed(e.message)
+            return Unit
         } catch (e: Throwable) {
             listener.onFailed(Log.getStackTraceString(e))
-            return
+            return Unit
         }
         // Compile Java Files
         try {
@@ -100,11 +100,11 @@ class CompileTask(
                 ECJCompilationTask(prefs).doFullTask(activity.getProject())
             }
         } catch (e: CompilationFailedException) {
-            listener.onFailed(e.getMessage())
-            return
+            listener.onFailed(e.message)
+            return Unit
         } catch (e: Throwable) {
             listener.onFailed(Log.getStackTraceString(e))
-            return
+            return Unit
         }
 
         ecjTime = System.currentTimeMillis() - time
@@ -115,8 +115,8 @@ class CompileTask(
         try {
             D8Task().doFullTask(activity.getProject())
         } catch (e: Exception) {
-            listener.onFailed(e.getMessage())
-            return
+            listener.onFailed(e.message)
+            return Unit
         }
         d8Time = System.currentTimeMillis() - time
 
@@ -126,7 +126,7 @@ class CompileTask(
         try {
             val classes = activity.getClassesFromDex()
             if (classes == null) {
-                return
+                return Unit
             }
             if (showExecuteDialog) {
                 activity.listDialog(
@@ -140,11 +140,11 @@ class CompileTask(
                                 activity.dialog(
                                         "Failed...",
                                         "Runtime error: "
-                                                + e.getMessage()
+                                                + e.message
                                                 + "\n\nSystem logs:\n"
                                                 + task.getLogs(),
                                         true)
-                                return
+                                return Unit
                             } catch (e: Exception) {
                                 activity.dialog(
                                         "Failed...",
@@ -155,23 +155,23 @@ class CompileTask(
                                                 + "\n"
                                                 + Log.getStackTraceString(e),
                                         true)
-                                return
+                                return Unit
                             }
                             val s = StringBuilder()
 
                             s.append("Compiling took: ")
-                            s.append(String.valueOf(ecjTime))
+                            s.append(ecjTime.toString())
                             s.append("ms, ")
                             s.append("D8")
                             s.append(" took: ")
-                            s.append(String.valueOf(d8Time))
+                            s.append(d8Time.toString())
                             s.append("ms")
 
                             activity.dialog(s.toString(), task.getLogs(), true)
                         })
             }
         } catch (e: Throwable) {
-            listener.onFailed(e.getMessage())
+            listener.onFailed(e.message)
         }
     }
 
