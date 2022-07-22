@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace 'com.pranav.java.ide'
+    namespace 'com.pranav.cosmic.ide'
     compileSdk 33
 
     defaultConfig {

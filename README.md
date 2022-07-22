@@ -1,4 +1,4 @@
-# Java IDE
+# Cosmic IDE
 
 <p align="center">
 <img src="https://raw.githubusercontent.com/PranavPurwar/Java-Ide/main/art/icon.png">
@@ -20,7 +20,7 @@
 </a>
 <p>
 
-Compile and run your java code anytime anywhere from your mobile phone
+Compile and run java/kotlin on your Android device
 
 ## How to get
 
@@ -87,11 +87,11 @@ Clone this repository on your device and compile using Android Studio or by runn
 
 ## Contributing
 
-I would really appreciate all kinds of contributions.
+We would really appreciate all kinds of contributions.
 If you have any questions, ideas, need help or want to propose a change just open an issue.
 
 - Any type of contributions are highly appreciated.
-- Create a pull request and I would merge it after review.
+- Create a pull request and We'll merge it after review.
 
 ## Special thanks to
 
